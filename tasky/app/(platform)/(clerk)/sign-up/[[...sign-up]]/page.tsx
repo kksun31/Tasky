@@ -4,14 +4,8 @@ export default function Page() {
   return <SignUp />;
 }*/
 
-'use client'
-
-import { ClerkProvider, SignUp } from '@clerk/nextjs'
+import { SignUp } from "@clerk/nextjs";
 
 export default function Page() {
-  return (
-    <ClerkProvider>
-      <SignUp />
-    </ClerkProvider>
-  )
+    return <SignUp />;
 }
