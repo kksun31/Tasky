@@ -6,9 +6,9 @@ const PlatformLayout = ({
     children: React.ReactNode;
 }) => {
     return (
-        <ClerkProvider>
+        <div>
             {children}
-        </ClerkProvider>
+        </div>
     );
 };
 
