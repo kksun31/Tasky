@@ -6,7 +6,7 @@ const OrganizationIdPage = async () => {
     const { userId, orgId } = await auth();
     return (
         <div>
-            <OrganizationSwitcher />
+сайдбар
         </div>
     );
 };
