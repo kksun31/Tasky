@@ -38,6 +38,7 @@ export const NavItem = ({
 }: NavItemProps) => {
     const router = useRouter();
     const pathname = usePathname();
+    
 
     const routes = [
         {
@@ -64,6 +65,7 @@ export const NavItem = ({
 
     const onClick = (href: string) => {
         router.push(href);
+         router.refresh();
     };
 
     return (
