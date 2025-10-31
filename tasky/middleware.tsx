@@ -24,9 +24,9 @@ export default clerkMiddleware(async (auth, req) => {
   }
   
   
-  if (!userId && !isPublicRoute(req)) {
+  /*if (!userId && !isPublicRoute(req)) {
     return RedirectToSignIn({ redirectUrl: req.url });
-  }
+  }*/
 
   if (userId && !orgId && req.nextUrl.pathname !== "/select-org") {
     const orgSelection = new URL("/select-org", req.url);
