@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "@clerk/nextjs": "^6.31.9"
+    "@clerk/nextjs": "^6.31.9",
+    "pg": "^8.16.3"
   }
 }
