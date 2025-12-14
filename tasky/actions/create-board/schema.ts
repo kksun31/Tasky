@@ -4,7 +4,7 @@ import { z } from "zod";
 export const CreateBoard = z.object({
   title: z.preprocess(
     (v) => (typeof v === "string" ? v : ""),
-    z.string().min(1, "Требуется название").min(3, "Название короткое")
+    z.string().min(1, "Требуется название").min(3, "Слишком короткое название. Необходимо ввести минимум 3 символа")
   ),
 });
 //export const CreateBoard = z.object({
