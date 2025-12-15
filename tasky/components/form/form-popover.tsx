@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import { CreateBoard } from "@/actions/create-board/schema";
 import { toast } from "sonner";
+import { FormPicker } from "./form-picker";
 
 interface FormPopoverProps {
     children: React.ReactNode;
@@ -74,6 +75,10 @@ export const FormPopover = ({
                 const formData = new FormData(e.currentTarget);
                 onSubmit(formData);}}>
                     <div className="space-y-4">
+                        <FormPicker 
+                            id="image"
+                            errors={fieldErrors}
+                        />
                         <FormInput
                             id="title"
                             label="Название доски"
