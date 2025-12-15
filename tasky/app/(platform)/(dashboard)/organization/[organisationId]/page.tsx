@@ -1,24 +1,18 @@
+import { Separator } from "@/components/ui/separator";
+import { Info } from "./_components/info";
+import { BoardList } from "./_components/board-list";
 
-import { db } from "@/lib/db";
-import { OrganizationSwitcher } from "@clerk/nextjs";
-import { auth } from "@clerk/nextjs/server";
-import { redirect } from "next/navigation";
-import { Board } from "./board";
-import { Form } from "./form";
 
 const OrganizationIdPage = async () => {
-  const boards = await db.board.findMany();
-    const { userId, orgId } = await auth();
-    return (
-        <div className="flex flex-col space-y-4">
-          <Form/>
-          <div className="space-y-2">
-              {boards.map((board) => (
-                <Board key={board.id} title={board.title} id={board.id}/>
-              ))}
-          </div>
-        </div>
-    );
+  return (
+    <div className="w-full mb-20">
+         <Info /> 
+         <Separator className="my-4"/>
+         <div className="px-2 md:px-4">
+            <BoardList />
+         </div>
+    </div>
+  );
 };
 
 export default OrganizationIdPage;
