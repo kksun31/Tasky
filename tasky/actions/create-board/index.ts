@@ -35,13 +35,21 @@ const handler = async (data: InputType): Promise<ReturnType> => {
     return { error: "Invalid image data" };
   }
 
-  try {
+   try {
     const board = await db.board.create({
-  data: {
-    title: data.title,
-  },
-  select: { id: true },
-});
+      data: {
+        title: data.title,
+        orgId,
+
+        imageId,
+        imageThumbUrl,
+        imageFullUrl,
+        imageLinkHTML,
+        imageUserName,
+      },
+      select: { id: true },
+    });
+
 
 
     revalidatePath(`/organization/${orgId}`);

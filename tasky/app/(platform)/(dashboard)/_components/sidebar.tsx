@@ -17,6 +17,8 @@ interface SidebarProps {
     storageKey?: string;
 };
 
+
+
 export  const Sidebar = ({
     storageKey = "t-sidebar-state", 
 }: SidebarProps) => {
@@ -26,9 +28,10 @@ export  const Sidebar = ({
     const { organization: activeOrganization,
         isLoaded: isLoadedOrg
     } = useOrganization();
+    
     const{
         userMemberships,
-        isLoaded: isLoadedOrgList 
+        isLoaded: isLoadedOrgList, setActive
     } = useOrganizationList({
         userMemberships: {
             infinite: true,
