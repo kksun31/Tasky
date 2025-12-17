@@ -1,42 +1,55 @@
+// actions/create-board/index.ts
 "use server";
 
-import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
+import { auth } from "@clerk/nextjs/server";
 
-import { InputType, ReturnType } from "./types";
 import { db } from "@/lib/db";
 import { createSafeAction } from "@/lib/create-safe-action";
-import { CreateBoard } from "./schema";
 
+import { CreateBoard } from "./schema";
+import { InputType, ReturnType } from "./types";
 
 const handler = async (data: InputType): Promise<ReturnType> => {
-    const { userId } = await auth();
+  const { userId, orgId } = await auth();
 
-    if (!userId) {
-        return {
-            error: "Ановтаризация крч"
-        };
-    }
+  if (!userId || !orgId) {
+    return { error: "Unauthorized" };
+  }
 
-    const { title } = data;
+  const [
+    imageId,
+    imageThumbUrl,
+    imageFullUrl,
+    imageLinkHTML,
+    imageUserName,
+  ] = data.image.split("|");
 
-    let board;
+  if (
+    !imageId ||
+    !imageThumbUrl ||
+    !imageFullUrl ||
+    !imageLinkHTML ||
+    !imageUserName
+  ) {
+    return { error: "Invalid image data" };
+  }
 
-    try {
-        board = await db.board.create({
-            data: {
-                title,
-            }
-        });
-    } catch (error) {
-        return {
-            error: "Ошибка при создании."
-        }
-    }
+  try {
+    const board = await db.board.create({
+  data: {
+    title: data.title,
+  },
+  select: { id: true },
+});
 
-    revalidatePath(`/board/${board.id}`);
-    return { data: board };
 
+    revalidatePath(`/organization/${orgId}`);
+
+    return { data: { id: board.id } };
+  } catch {
+    return { error: "Failed to create board" };
+  }
 };
 
-export const createBoard = createSafeAction(CreateBoard, handler)
+export const createBoard = createSafeAction(CreateBoard, handler);

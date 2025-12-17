@@ -1,27 +1,28 @@
+// lib/create-safe-action.ts
 import { z } from "zod";
 
-export type FieldErrors<T> = {
-    [K in keyof T]?: string[];
-};
+export type FieldErrors<T> = Partial<Record<keyof T, string[]>>;
 
 export type ActionState<TInput, TOutput> = {
-    fieldErrors?: FieldErrors<TInput>;
-    error?: string | null;
-    data?: TOutput;
-}
+  fieldErrors?: FieldErrors<TInput>;
+  error?: string | null;
+  data?: TOutput;
+};
 
-export const createSafeAction = <TInput, TOutput> (
+export const createSafeAction =
+  <TInput, TOutput>(
     schema: z.Schema<TInput>,
-    handler: (validatedData: TInput) => Promise<ActionState<TInput, TOutput>>
-) => {
-    return async (data: TInput): Promise<ActionState<TInput, TOutput>> => {
-        const validationResult = schema.safeParse(data);
-        if (!validationResult.success) {
-            return {
-                fieldErrors: validationResult.error.flatten().fieldErrors as FieldErrors<TInput>,
-            };
-        }
+    handler: (data: TInput) => Promise<ActionState<TInput, TOutput>>,
+  ) =>
+  async (raw: TInput): Promise<ActionState<TInput, TOutput>> => {
+    const parsed = schema.safeParse(raw);
 
-        return handler(validationResult.data);
+    if (!parsed.success) {
+      return {
+        fieldErrors: parsed.error.flatten()
+          .fieldErrors as FieldErrors<TInput>,
+      };
     }
-}
+
+    return handler(parsed.data);
+  };
