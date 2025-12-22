@@ -8,8 +8,10 @@ import { BoardNavbar } from "./_components/board-navbar";
 export async function generateMetadata({
   params,
 }: {
-  params: { boardId: string };
+  params: Promise<{boardId: string}>;
 }) {
+  const { boardId } = await params;
+
   const { orgId } = await auth();
 
   if (!orgId) {
@@ -20,7 +22,7 @@ export async function generateMetadata({
 
   const board = await db.board.findUnique({
     where: {
-      id: params.boardId,
+      id: boardId,
       orgId,
     },
   });
@@ -37,6 +39,8 @@ const BoardIdLayout = async ({
   children: React.ReactNode;
   params: { boardId: string };
 }) => {
+  const { boardId } = await params;
+
   const { orgId } = await auth();
 
   if (!orgId) {
@@ -45,7 +49,7 @@ const BoardIdLayout = async ({
 
   const board = await db.board.findUnique({
     where: {
-      id: params.boardId,
+      id: boardId,
       orgId: orgId!,
     },
   });
@@ -56,12 +60,12 @@ const BoardIdLayout = async ({
 
   return (
     <div
-      className="relative h-full bg-no-repeat bg-cover bg-center"
+      className="relative min-h-screen w-full bg-no-repeat bg-cover bg-center flex flex-col"
       style={{ backgroundImage: `url(${board.imageFullUrl})` }}
     >
-    <BoardNavbar id={params.boardId}/>
+    <BoardNavbar data={board}/>
     <div className="absolute inset-0 bg-black/10" />
-    <main className="relative pt-28 h-full">
+    <main className="relative pt-28  flex-1">
         {children}
     </main>
     </div>

@@ -1,5 +1,5 @@
 "use client";
-
+import * as React from "react";
 import { forwardRef } from "react";
 import { useFormStatus } from "react-dom";
 
@@ -8,7 +8,8 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { FormErrors } from "./form-errors";
 
-interface FormInputProps {
+interface FormInputProps
+extends React.InputHTMLAttributes<HTMLInputElement> {
   id: string;
   label?: string;
   type?: string;
@@ -21,7 +22,7 @@ interface FormInputProps {
   onBlur?: () => void;
 };
 
-export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(({
+export const FormInput = React.forwardRef<HTMLInputElement, FormInputProps>(({
     id,
     label,
     type,
