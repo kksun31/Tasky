@@ -73,7 +73,7 @@ model AuditLog {
   entityType          ENTITY_TYPE
   entityTitle         String
   userId              String
-  userImage           String @db.Text
+  userImage           String @db.Text                             
   userName            String @db.Text
 
   createdAt           DateTime @default(now())
