@@ -69,7 +69,7 @@ export const NavItem = ({
     return (
         <AccordionItem
             value={organization.id}
-            className="botder-none"
+            className="border-none"
         >
             <AccordionTrigger
                 onClick={() => onExpand(organization.id)}
@@ -78,7 +78,7 @@ export const NavItem = ({
                     isActive && !isExpanded && "bg-sky-500/10 text-sky-700"
                 )}
             >
-                <div className="flex items-cemter gap-x-2">
+                <div className="flex items-center gap-x-2">
                     <div className="w-7 h-7 relative">
                         <Image 
                             fill

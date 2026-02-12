@@ -1,17 +1,15 @@
-import { auth } from "@clerk/nextjs/server"; 
+import { auth } from "@clerk/nextjs/server";
 import { notFound, redirect } from "next/navigation";
 
 import { db } from "@/lib/db";
 import { BoardNavbar } from "./_components/board-navbar";
 
-
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{boardId: string}>;
+  params: Promise<{ boardId: string }>;
 }) {
   const { boardId } = await params;
-
   const { orgId } = await auth();
 
   if (!orgId) {
@@ -37,9 +35,9 @@ const BoardIdLayout = async ({
   params,
 }: {
   children: React.ReactNode;
-  params: { boardId: string };
+  params: Promise<{ boardId: string }>; // <--- 1. ИСПРАВЛЕНО: Добавили Promise
 }) => {
-  const { boardId } = await params;
+  const { boardId } = await params; // <--- 2. ИСПРАВЛЕНО: Добавили await
 
   const { orgId } = await auth();
 
@@ -50,7 +48,7 @@ const BoardIdLayout = async ({
   const board = await db.board.findUnique({
     where: {
       id: boardId,
-      orgId: orgId!,
+      orgId,
     },
   });
 
@@ -63,11 +61,11 @@ const BoardIdLayout = async ({
       className="relative min-h-screen w-full bg-no-repeat bg-cover bg-center flex flex-col"
       style={{ backgroundImage: `url(${board.imageFullUrl})` }}
     >
-    <BoardNavbar data={board}/>
-    <div className="absolute inset-0 bg-black/10" />
-    <main className="relative pt-28  flex-1">
+      <BoardNavbar data={board} />
+      <div className="absolute inset-0 bg-black/10" />
+      <main className="relative pt-28 flex-1">
         {children}
-    </main>
+      </main>
     </div>
   );
 };

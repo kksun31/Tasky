@@ -12,7 +12,14 @@ const nextConfig: NextConfig = {
         hostname: "images.pexels.com",
         pathname: "/**",
       },
-      
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+      },
+      {
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com", // <--- ВОТ ЭТО ВАЖНО ДЛЯ ГУГЛ-АККАУНТОВ
+      },
     ],
   },
   /* config options here */
